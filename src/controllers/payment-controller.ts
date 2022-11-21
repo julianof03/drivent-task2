@@ -4,8 +4,9 @@ import { Response } from "express";
 import httpStatus from "http-status";
 
 export async function getPayments(req: AuthenticatedRequest, res: Response) {
-  const ticketId = req.query.ticketId;
+  const ticketId = req.query.ticketId as string;
   const { userId } = req as AuthenticatedRequest;
+
   try {
     const payment = await paymentServices.getPaymentsByTicketId(Number(ticketId), userId);
 
@@ -18,10 +19,12 @@ export async function getPayments(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function PostPayment(req: AuthenticatedRequest, res: Response) {
-  const ticketId = req.query.ticketId;
+  const body = req.body;
+  
   const { userId } = req as AuthenticatedRequest;
+
   try {
-    const payment = await paymentServices.getPaymentsByTicketId(Number(ticketId), userId);
+    const payment = await paymentServices.CreatePayment(body, userId);
 
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
