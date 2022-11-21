@@ -21,7 +21,7 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
     return res.status(httpStatus.OK).send(tickets);
   } catch (error) {
     if (error.name === "NotFoundError") {
-      return res.send(httpStatus.NOT_FOUND);
+      return res.sendStatus(httpStatus.NOT_FOUND);
     }
   }
 }
@@ -33,9 +33,9 @@ export async function insertTickets(req: AuthenticatedRequest, res: Response) {
   try {
     const tickets = await ticketServices.insertTickets(ticketTypeId, userId);
 
-    return res.status(httpStatus.OK).send(tickets);
+    return res.status(httpStatus.CREATED).send(tickets);
   } catch (error) {
-    if (error.name === "invalidDataError") return res.send(httpStatus.BAD_REQUEST);
-    if (error.name === "NotFoundError") return res.send(httpStatus.NOT_FOUND);
+    if (error.name === "invalidDataError") return res.sendStatus(httpStatus.BAD_REQUEST);
+    if (error.name === "NotFoundError") return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }

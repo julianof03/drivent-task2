@@ -14,10 +14,13 @@ async function findEnrolmentByUserId(userId: number) {
   });
 }
 
-async function findTicketInfo(id: number) {
+async function findTicketInfo(enrollmentId: number) {
   return prisma.ticket.findFirst({
-    where: { id },
-  }); 
+    where: { enrollmentId },
+    include: {
+      TicketType: true,
+    },
+  });
 }
 
 async function findTicketTypeInfo(id: number) {
